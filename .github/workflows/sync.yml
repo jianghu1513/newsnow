@@ -10,9 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Sync fork
-        uses: tgymnich/fork-sync@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          upstream_repository: ourongxing/newsnow
-          target_branch: main
+      - uses: actions/checkout@v4
+
+      - name: Sync upstream
+        run: |
+          git remote add upstream https://github.com/ourongxing/newsnow.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main --no-edit
+          git push origin main
